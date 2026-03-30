@@ -1,0 +1,26 @@
+{
+   suppress_random_int_in_range_helgrind
+   Helgrind:Race
+   ...
+   fun:random_int_in_range
+   ...
+}
+{
+   suppress_random_int_in_range_drd
+   drd:ConflictingAccess
+   ...
+   fun:random_int_in_range
+   ...
+}
+{
+   suppress_mt19937_seed_helgrind
+   Helgrind:Race
+   fun:_ZNSt23mersenne_twister_engine*
+   ...
+}
+{
+   suppress_mt19937_seed_drd
+   drd:ConflictingAccess
+   fun:_ZNSt23mersenne_twister_engine*
+   ...
+}
