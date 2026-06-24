@@ -11,8 +11,7 @@ template <typename T> class LockeFreeQueue {
     T data;
     std::atomic<Node *> next;
     template <typename... Args>
-    Node(Args &&...args)
-        : data(std::forward<Args>(args)...), next(nullptr) {}
+    Node(Args &&...args) : data(std::forward<Args>(args)...), next(nullptr) {}
   };
 
   Node *head_;

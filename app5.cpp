@@ -59,20 +59,19 @@ public:
   std::int32_t GetSources() override { return txEvent.GetSource(); }
   virtual void _runImpl() override {
     auto event = std::make_unique<EventA>(random_int_in_range(0, 100));
-    if(txQueue.enqueue(std::move(event))) {
+    if (txQueue.enqueue(std::move(event))) {
       _prometheus->IncrementCounter(_eventTxCounter);
       txEvent.Fire();
     } else {
       _prometheus->IncrementCounter(_eventTxDroppedCounter);
     }
   }
-  virtual void _preRunImpl() override {
-  }
-  virtual void Consume(std::list<Event::UPtr> &&events) override {
-    for (auto &event : events) {
-      Consume(std::move(event));
-    }
-  }
+  virtual void _preRunImpl() override {}
+  // virtual void Consume(std::list<Event::UPtr> &&events) override {
+  //   for (auto &event : events) {
+  //     Consume(std::move(event));
+  //   }
+  // }
   virtual void Consume(Event::UPtr &&event) override {
     _prometheus->IncrementCounter(_eventRxCounter);
   }

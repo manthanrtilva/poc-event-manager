@@ -84,12 +84,12 @@ public:
   virtual void _preRunImpl() override {
     // LOG_DEBUG_TRACE("ManagerA pre-run initialization\n");
   }
-  virtual void Consume(std::list<Event::UPtr> &&events) override {
-    // LOG_DEBUG_TRACE("ManagerA consuming batch of events\n");
-    for (auto &event : events) {
-      Consume(std::move(event));
-    }
-  }
+  // virtual void Consume(std::list<Event::UPtr> &&events) override {
+  //   // LOG_DEBUG_TRACE("ManagerA consuming batch of events\n");
+  //   for (auto &event : events) {
+  //     Consume(std::move(event));
+  //   }
+  // }
   virtual void Consume(Event::UPtr &&event) override {
     _prometheus->IncrementCounter(_eventRxCounter);
     // LOG_DEBUG_TRACE("ManagerA consuming single event of type {}\n",
@@ -142,12 +142,12 @@ public:
   virtual void _preRunImpl() override {
     // LOG_DEBUG_TRACE("ManagerA pre-run initialization\n");
   }
-  virtual void Consume(std::list<Event::UPtr> &&events) override {
-    // LOG_DEBUG_TRACE("ManagerA consuming batch of events\n");
-    for (auto &event : events) {
-      Consume(std::move(event));
-    }
-  }
+  // virtual void Consume(std::list<Event::UPtr> &&events) override {
+  //   // LOG_DEBUG_TRACE("ManagerA consuming batch of events\n");
+  //   for (auto &event : events) {
+  //     Consume(std::move(event));
+  //   }
+  // }
   virtual void Consume(Event::UPtr &&event) override {
     _prometheus->IncrementCounter(_eventRxCounter);
     // LOG_DEBUG_TRACE("ManagerA consuming single event of type {}\n",
@@ -196,12 +196,12 @@ public:
     // poller
     // LOG_DEBUG_TRACE("ManagerA pre-run initialization\n");
   }
-  virtual void Consume(std::list<Event::UPtr> &&events) override {
-    // LOG_DEBUG_TRACE("ManagerA consuming batch of events\n");
-    for (auto &event : events) {
-      Consume(std::move(event));
-    }
-  }
+  // virtual void Consume(std::list<Event::UPtr> &&events) override {
+  //   // LOG_DEBUG_TRACE("ManagerA consuming batch of events\n");
+  //   for (auto &event : events) {
+  //     Consume(std::move(event));
+  //   }
+  // }
   virtual void Consume(Event::UPtr &&event) override {
     std::lock_guard<std::mutex> lock(txMutex);
     txQueue.emplace_back(std::move(event));

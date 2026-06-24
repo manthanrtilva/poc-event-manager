@@ -39,4 +39,6 @@ add_app(app10 fmt::fmt prometheus-cpp::pull atomic_queue::atomic_queue)
 add_subdirectory(SPSCQueue)
 add_app(app11 fmt::fmt prometheus-cpp::pull SPSCQueue::SPSCQueue)
 
+add_app(app12 fmt::fmt prometheus-cpp::pull SPSCQueue::SPSCQueue)
+
 add_integration_test(promethues-simple-server prometheus-cpp::pull)

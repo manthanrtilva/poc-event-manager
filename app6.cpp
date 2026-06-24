@@ -6,9 +6,9 @@
 
 #include "EventPoller.h"
 #include "IManager.h"
+#include "LockeFreeQueue.h"
 #include "PipedEvent.h"
 #include "promethues-simple-server.h"
-#include "LockeFreeQueue.h"
 
 #include <array>
 #include <csignal>
@@ -65,13 +65,12 @@ public:
     _prometheus->IncrementCounter(_eventTxCounter);
     txEvent.Fire();
   }
-  virtual void _preRunImpl() override {
-  }
-  virtual void Consume(std::list<Event::UPtr> &&events) override {
-    for (auto &event : events) {
-      Consume(std::move(event));
-    }
-  }
+  virtual void _preRunImpl() override {}
+  // virtual void Consume(std::list<Event::UPtr> &&events) override {
+  //   for (auto &event : events) {
+  //     Consume(std::move(event));
+  //   }
+  // }
   virtual void Consume(Event::UPtr &&event) override {
     _prometheus->IncrementCounter(_eventRxCounter);
   }

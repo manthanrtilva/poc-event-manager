@@ -69,14 +69,13 @@ public:
     _prometheus->IncrementCounter(_eventTxCounter);
     txEvent.Fire();
   }
-  virtual void _preRunImpl() override {
-  }
-  virtual void Consume(std::list<Event::UPtr> &&events) override {
-    // LOG_DEBUG_TRACE("ManagerA consuming batch of events\n");
-    for (auto &event : events) {
-      Consume(std::move(event));
-    }
-  }
+  virtual void _preRunImpl() override {}
+  // virtual void Consume(std::list<Event::UPtr> &&events) override {
+  //   // LOG_DEBUG_TRACE("ManagerA consuming batch of events\n");
+  //   for (auto &event : events) {
+  //     Consume(std::move(event));
+  //   }
+  // }
   virtual void Consume(Event::UPtr &&event) override {
     _prometheus->IncrementCounter(_eventRxCounter);
   }

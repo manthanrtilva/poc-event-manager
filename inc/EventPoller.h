@@ -93,7 +93,12 @@ public:
       if (producer && consumer) {
         auto &&events = producer->Produce();
         if (!events.empty()) {
-          consumer->Consume(std::move(events));
+          for (auto &event : events) {
+            consumer->Consume(std::move(event));
+            // LOG_DEBUG_TRACE("Routing event of type {} from producer to
+            // consumer\n", static_cast<int>(event->type));
+          }
+          // consumer->Consume(std::move(events));
         }
       } else {
         // LOG_ERR("Producer or Consumer is not available for fd:{}", fd);

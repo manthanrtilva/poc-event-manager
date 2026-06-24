@@ -1,6 +1,7 @@
 #ifndef __iproducer_h__
 #define __iproducer_h__
 
+#include "AutoId.h"
 #include <list>   // for list
 #include <memory> // for unique_ptr
 
@@ -31,7 +32,7 @@
  * };
  * @endcode
  */
-template <typename E> class IProducer {
+template <typename E> class IProducer : virtual public AutoId {
 public:
   /**
    * @brief Weak pointer type for this producer interface.

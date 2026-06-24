@@ -4,7 +4,8 @@
 #include <list>
 #include <mutex>
 /**
- * This class is based on widely used pattern described in https://www.stroustrup.com/wrapper.pdf
+ * This class is based on widely used pattern described in
+ * https://www.stroustrup.com/wrapper.pdf
  */
 /*
  * Functional object, which unlock mutex when get called
@@ -23,16 +24,19 @@ template <typename T, typename Mutex> class Wrapper;
 
 /*
  * Object of this class allows to transparently call methods of proxied object.
- * Mutex locked by Wrapper class will be unlocked by destructor of CallProxy class' object
+ * Mutex locked by Wrapper class will be unlocked by destructor of CallProxy
+ * class' object
  */
 template <typename T, typename Suf> class CallProxy {
 public:
   /**
-   * Constructs a CallProxy, storing a reference to the data and a suffix callable.
+   * Constructs a CallProxy, storing a reference to the data and a suffix
+   * callable.
    */
   CallProxy(T &data, Suf suffix) : _data{data}, _suffix{suffix} {}
   /**
-   * Destructor calls the stored suffix callable, typically used for unlocking a mutex.
+   * Destructor calls the stored suffix callable, typically used for unlocking a
+   * mutex.
    */
   ~CallProxy() { _suffix(); }
   /**
@@ -52,14 +56,15 @@ public:
    */
   CallProxy &&operator=(CallProxy &&) = delete;
   /**
-   * Allows pointer-style access to call methods on the proxied object by returning its pointer.
-   * \return pointer to the proxied object
+   * Allows pointer-style access to call methods on the proxied object by
+   * returning its pointer. \return pointer to the proxied object
    */
   T *operator->() const { return &_data; }
 
 private:
   /**
-   * Proxied object's reference, whose methods are accessible through this proxy.
+   * Proxied object's reference, whose methods are accessible through this
+   * proxy.
    */
   T &_data;
   /**
@@ -100,8 +105,8 @@ public:
    * to the wrapped object, creating a CallProxy that unlocks the mutex
    * when the proxy goes out of scope. This allows safe method calls on
    * the proxied object in a multi-threaded environment.
-   * \return A CallProxy object that safely lets you call methods on the wrapped object,
-   * automatically unlocking the mutex when done.
+   * \return A CallProxy object that safely lets you call methods on the wrapped
+   * object, automatically unlocking the mutex when done.
    */
   CallProxy<T, Unlock<Mutex>> operator->() {
     _mutex.lock();
@@ -110,7 +115,8 @@ public:
 
 private:
   /**
-   * Instance of the object of Type T being wrapped for thread-safe method access.
+   * Instance of the object of Type T being wrapped for thread-safe method
+   * access.
    */
   T _data{};
   /**
@@ -122,7 +128,8 @@ private:
 /**
  * A thread-safe list using Wrapper to secure method access.
  * This alias creates a thread-safe version of `std::list` by wrapping it with
- * the `Wrapper` class to ensure its methods are accessed safely in concurrent scenarios.
+ * the `Wrapper` class to ensure its methods are accessed safely in concurrent
+ * scenarios.
  */
 template <typename T> using list = Wrapper<std::list<T>, std::mutex>;
 
@@ -132,7 +139,9 @@ template <typename T> using list = Wrapper<std::list<T>, std::mutex>;
  * \param from list from which item will be moved
  * \param at location of item on from which will be moved
  */
-template <typename T> inline void Append(list<T> &to, std::list<T> &from, typename std::list<T>::iterator at) {
+template <typename T>
+inline void Append(list<T> &to, std::list<T> &from,
+                   typename std::list<T>::iterator at) {
   auto queue = to.operator->();
   queue->splice(queue->end(), from, at);
 }

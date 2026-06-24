@@ -61,10 +61,10 @@ public:
   std::int32_t GetSources() override { return txEvent.GetSource(); }
   virtual void _runImpl() override {
     auto event = std::make_unique<EventA>(random_int_in_range(0, 100));
-    if(txMutex1.try_lock()) {
+    if (txMutex1.try_lock()) {
       txQueue1.emplace_back(std::move(event));
       txMutex1.unlock();
-    } else if(txMutex2.try_lock()) {
+    } else if (txMutex2.try_lock()) {
       txQueue2.emplace_back(std::move(event));
       txMutex2.unlock();
     } else {
@@ -75,22 +75,21 @@ public:
     _prometheus->IncrementCounter(_eventTxCounter);
     txEvent.Fire();
   }
-  virtual void _preRunImpl() override {
-  }
-  virtual void Consume(std::list<Event::UPtr> &&events) override {
-    for (auto &event : events) {
-      Consume(std::move(event));
-    }
-  }
+  virtual void _preRunImpl() override {}
+  // virtual void Consume(std::list<Event::UPtr> &&events) override {
+  //   for (auto &event : events) {
+  //     Consume(std::move(event));
+  //   }
+  // }
   virtual void Consume(Event::UPtr &&event) override {
     _prometheus->IncrementCounter(_eventRxCounter);
   }
   virtual std::list<Event::UPtr> Produce() override {
     std::list<Event::UPtr> events;
-    if(txMutex2.try_lock() && !txQueue2.empty()) {
+    if (txMutex2.try_lock() && !txQueue2.empty()) {
       events.swap(txQueue2);
       txMutex2.unlock();
-    } else if(txMutex1.try_lock() && !txQueue1.empty()) {
+    } else if (txMutex1.try_lock() && !txQueue1.empty()) {
       events.swap(txQueue1);
       txMutex1.unlock();
     }

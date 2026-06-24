@@ -1,11 +1,12 @@
 #include "promethues-simple-server.h"
 
-#include <thread>
 #include <chrono>
+#include <thread>
 
 int main() {
   PrometheusSimpleServer server;
-  auto counter = server.AddCounter("number_seconds_total", "Total number of seconds elapsed");
+  auto counter = server.AddCounter("number_seconds_total",
+                                   "Total number of seconds elapsed");
   server.Start();
   while (true) {
     std::this_thread::sleep_for(std::chrono::seconds(1));
